@@ -1,3 +1,4 @@
+using AvalphaTechnologies.CommissionCalculator.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvalphaTechnologies.CommissionCalculator.Controllers
@@ -17,17 +18,7 @@ namespace AvalphaTechnologies.CommissionCalculator.Controllers
         }
     }
 
-    public class CommissionCalculationRequest
-    {
-        public int LocalSalesCount { get; set; }
-        public int ForeignSalesCount { get; set; }
-        public decimal AverageSaleAmount { get; set; }
-    }
+   
 
-    public class CommissionCalculationResponse
-    {
-        public decimal AvalphaTechnologiesCommissionAmount { get; set; }
-
-        public decimal CompetitorCommissionAmount { get; set; }
-    }
+   
 }
