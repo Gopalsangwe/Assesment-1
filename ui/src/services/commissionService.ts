@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "https://localhost:5001/Commision";
+const API_BASE_URL = 'https://localhost:5000/commision'; 
 
-export interface CommissionCalculationRequest {
+export interface CommissionInput {
   localSalesCount: number;
   foreignSalesCount: number;
   averageSaleAmount: number;
 }
 
-export interface CommissionCalculationResponse {
+export interface CommissionResponse {
   avalphaLocal: number;
   avalphaForeign: number;
   avalphaTotal: number;
@@ -17,9 +17,7 @@ export interface CommissionCalculationResponse {
   competitorTotal: number;
 }
 
-export async function calculateCommission(
-  data: CommissionCalculationRequest
-): Promise<CommissionCalculationResponse> {
-  const response = await axios.post<CommissionCalculationResponse>(API_URL, data);
+export const calculateCommission = async (data: CommissionInput): Promise<CommissionResponse> => {
+  const response = await axios.post(API_BASE_URL, data);
   return response.data;
-}
+};
