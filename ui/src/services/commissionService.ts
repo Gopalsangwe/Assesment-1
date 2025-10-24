@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://localhost:5000/commision'; 
+const API_URL = process.env.REACT_APP_API_URL;
 
 export interface CommissionInput {
   localSalesCount: number;
@@ -18,6 +18,6 @@ export interface CommissionResponse {
 }
 
 export const calculateCommission = async (data: CommissionInput): Promise<CommissionResponse> => {
-  const response = await axios.post(API_BASE_URL, data);
+  const response = await axios.post(`${API_URL}/commission`, data);
   return response.data;
 };
