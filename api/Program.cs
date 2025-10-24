@@ -7,7 +7,19 @@ namespace AvalphaTechnologies.CommissionCalculator
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            
+            builder.Services.AddScoped<AvalphaTechnologies.CommissionCalculator.BusinessLogic.ICommissionCalculator, AvalphaTechnologies.CommissionCalculator.BusinessLogic.CommissionCalculator>();
+
+            // Add CORS policy for local React dev server
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost3000", p =>
+                {
+                    p.WithOrigins("http://localhost:3000")
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+                });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -27,7 +39,21 @@ namespace AvalphaTechnologies.CommissionCalculator
 
             app.UseAuthorization();
 
+            app.UseCors("AllowLocalhost3000");
 
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.ContentType = "application/problem+json";
+                    await context.Response.WriteAsJsonAsync(new
+                    {
+                        title = "An unexpected error occurred.",
+                        status = 500
+                    });
+                });
+            });
             app.MapControllers();
 
             app.Run();
